@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+
 
 class GuestController extends Controller
 {
@@ -46,6 +48,7 @@ class GuestController extends Controller
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->password = Hash::make($validated['password']);
+        Mail::to("admin@admin.com")->send(new \App\Mail\User($user));
         $user->save();
 
         return redirect('login');
